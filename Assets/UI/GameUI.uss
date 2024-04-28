@@ -1,0 +1,8 @@
+.ammoType-container {
+    width: 33%;
+}
+
+.ammo-image {
+    width: 75%;
+    height: 50%;
+}

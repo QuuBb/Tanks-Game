@@ -1,0 +1,47 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=740b376fbcb931c40b16d5575ca0f7c7&amp;type=3#GameUI" />
+    <ui:VisualElement name="background" style="align-items: flex-end; justify-content: center; width: 100%; height: 100%;">
+        <ui:VisualElement name="info-tab" style="width: 25%; height: 100%; right: auto;">
+            <ui:VisualElement name="health-container" style="height: 10%; justify-content: center; align-items: center;">
+                <ui:ProgressBar value="22" name="health-bar" style="width: 75%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ammo-container" style="height: 20%; flex-direction: row; justify-content: space-between;">
+                <ui:VisualElement class="ammoType-container" style="align-items: center; justify-content: space-around;">
+                    <ui:VisualElement class="ammo-image" />
+                    <ui:Label text="22" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="ammoType-container" style="align-items: center; justify-content: space-around;">
+                    <ui:VisualElement class="ammo-image" />
+                    <ui:Label text="22" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="ammoType-container" style="align-items: center; justify-content: space-around;">
+                    <ui:VisualElement class="ammo-image" />
+                    <ui:Label text="22" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="players-container" style="height: 70%;">
+                <ui:VisualElement style="height: 33%; flex-direction: row; align-items: center; justify-content: space-around;">
+                    <ui:VisualElement style="height: 100%; width: 50%; align-items: center; justify-content: center;">
+                        <ui:Label text="Player 1" display-tooltip-when-elided="true" style="font-size: 52px;" />
+                        <ui:Label text="70 HP" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="width: 30%; height: 50%;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="height: 33%; flex-direction: row; align-items: center; justify-content: space-around;">
+                    <ui:VisualElement style="height: 100%; width: 50%; align-items: center; justify-content: center;">
+                        <ui:Label text="Player 2" display-tooltip-when-elided="true" style="font-size: 52px;" />
+                        <ui:Label text="70 HP" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="width: 30%; height: 50%;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="height: 33%; flex-direction: row; align-items: center; justify-content: space-around;">
+                    <ui:VisualElement style="height: 100%; width: 50%; align-items: center; justify-content: center;">
+                        <ui:Label text="Player 3" display-tooltip-when-elided="true" style="font-size: 52px;" />
+                        <ui:Label text="70 HP" display-tooltip-when-elided="true" style="font-size: 42px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="width: 30%; height: 50%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
