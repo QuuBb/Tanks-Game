@@ -74,17 +74,26 @@ public class MapCreator : MonoBehaviour
         {
             for (int x = -5; x < mapSizeX - 5; x++)
             {
-                if (mapArray[x+5, y+5] == 0)
+                if (mapArray[x + 5, y + 5] == 0)
                 {
-                    Instantiate(mapBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
+                    GameObject newBlock = Instantiate(mapBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
                 }
                 else
                 {
-                    Instantiate(wallBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
+                    GameObject newWall = Instantiate(wallBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
+
+                    // Dodaj komponent kolizji do obiektu œciany
+                    BoxCollider2D collider = newWall.AddComponent<BoxCollider2D>();
+                    collider.size = new Vector2(.4f, .4f); // Ustaw rozmiar kolizji na 1x1 jednostkê
+
+                    // Ustaw tag "Wall" dla nowego obiektu œciany
+                    newWall.tag = "Wall";
                 }
             }
         }
     }
+
+
 
 
     void Start()
