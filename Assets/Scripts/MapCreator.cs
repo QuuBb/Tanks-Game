@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapCreator : MonoBehaviour
 {
     [SerializeField]
-    List<Sprite> terainTextures;
+    List<Sprite> terrainTextures;
 
     [SerializeField]
     List<Sprite> wallTextures;
@@ -22,27 +20,31 @@ public class MapCreator : MonoBehaviour
     public GameObject wallBlock;
     public GameObject map;
 
+    [SerializeField]
+    public Vector3 StartPoint = Vector3.zero; // W³aœciwoœæ okreœlaj¹ca punkt startowy, domyœlnie (0,0,0)
+
     void CreateWall(int posX, int posY, int vertically)
     {
         try
         {
-            if(vertically == 1)
+            if (vertically == 1)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    mapArray[posY+i, posX] = 1;
+                    mapArray[posY + i, posX] = 1;
                 }
             }
             else
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    mapArray[posY, posX+1] = 1;
+                    mapArray[posY, posX + 1] = 1;
                 }
             }
-        } catch( Exception _) 
+        }
+        catch (System.Exception)
         {
-        
+
         }
     }
 
@@ -50,12 +52,12 @@ public class MapCreator : MonoBehaviour
     {
         int rand;
         int vertically;
-        for(int y = 0; y < mapSizeY; y++) 
+        for (int y = 0; y < mapSizeY; y++)
         {
-            for(int x = 0; x < mapSizeX; x++)
+            for (int x = 0; x < mapSizeX; x++)
             {
-                rand = UnityEngine.Random.Range(0, 10);
-                if(rand > 2)
+                rand = UnityEngine.Random.Range(0, 13);
+                if (rand > 2)
                 {
                     mapArray[x, y] = 0;
                 }
@@ -70,41 +72,62 @@ public class MapCreator : MonoBehaviour
 
     void RenderMap()
     {
-        for (int y = -5; y < mapSizeY - 5; y++)
+        for (int y = 0; y < mapSizeY; y++)
         {
-            for (int x = -5; x < mapSizeX - 5; x++)
+            for (int x = 0; x < mapSizeX; x++)
             {
-                if (mapArray[x + 5, y + 5] == 0)
+                if (mapArray[x, y] == 0)
                 {
-                    GameObject newBlock = Instantiate(mapBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
+                    Instantiate(mapBlock, StartPoint + new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
                 }
                 else
                 {
-                    GameObject newWall = Instantiate(wallBlock, new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
-
-                    // Dodaj komponent kolizji do obiektu œciany
+                    GameObject newWall = Instantiate(wallBlock, StartPoint + new Vector3(x * .8f, y * .8f, 0), Quaternion.identity, map.transform);
                     BoxCollider2D collider = newWall.AddComponent<BoxCollider2D>();
-                    collider.size = new Vector2(.4f, .4f); // Ustaw rozmiar kolizji na 1x1 jednostkê
-
-                    // Ustaw tag "Wall" dla nowego obiektu œciany
+                    collider.size = new Vector2(.4f, .4f);
                     newWall.tag = "Wall";
                 }
             }
         }
+
+        AddBoundaryWalls();
     }
 
+    void AddBoundaryWalls()
+    {
+        // Górna i dolna œciana
+        for (int x = -1; x <= mapSizeX; x++)
+        {
+            CreateBoundaryWall(StartPoint + new Vector3(x * .8f, -1 * .8f, 0)); // Dolna œciana
+            CreateBoundaryWall(StartPoint + new Vector3(x * .8f, mapSizeY * .8f, 0)); // Górna œciana
+        }
 
+        // Lewa i prawa œciana
+        for (int y = 0; y < mapSizeY; y++)
+        {
+            CreateBoundaryWall(StartPoint + new Vector3(-1 * .8f, y * .8f, 0)); // Lewa œciana
+            CreateBoundaryWall(StartPoint + new Vector3(mapSizeX * .8f, y * .8f, 0)); // Prawa œciana
+        }
+    }
 
+    void CreateBoundaryWall(Vector3 position)
+    {
+        GameObject boundaryWall = Instantiate(wallBlock, position, Quaternion.identity, map.transform);
+        BoxCollider2D collider = boundaryWall.AddComponent<BoxCollider2D>();
+        collider.size = new Vector2(.4f, .4f);
+        boundaryWall.tag = "BoundaryWall";
+    }
 
     void Start()
     {
         mapArray = new int[mapSizeY, mapSizeX];
+
         CreateMap();
         RenderMap();
     }
 
     void Update()
     {
-        
+
     }
 }

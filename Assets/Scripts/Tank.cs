@@ -17,7 +17,7 @@ public class Tank : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // Ustawienie pozycji czo³gu na (0,0)
-        transform.position = new Vector3(0, 0, 0); // Dla mapy 2D u¿ywamy tylko dwóch pierwszych wspó³rzêdnych (x, y)
+        transform.position = new Vector3(0, 0, -2); // Dla mapy 2D u¿ywamy tylko dwóch pierwszych wspó³rzêdnych (x, y)
 
         // Ustawienie Gravity Scale na 0, aby wy³¹czyæ grawitacjê
         rb.gravityScale = 0;

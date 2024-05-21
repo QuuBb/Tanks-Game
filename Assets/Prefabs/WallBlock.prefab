@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6892809584956634136}
   - component: {fileID: 2945734741383755162}
+  - component: {fileID: 3469052116158414106}
   m_Layer: 0
   m_Name: WallBlock
   m_TagString: Untagged
@@ -84,3 +85,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3469052116158414106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596246530026645996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d34ce748e944024bb29cd748a7f6c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 25
+  mapBlockPrefab: {fileID: 3244588942232716807, guid: f117872c577753c4980201eeb3a714fd, type: 3}
