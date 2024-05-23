@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
     public float fadeOutTime = 1f; // Czas, po którym pocisk zniknie
     public int damage = 10; // Obra¿enia pocisku
 
+
+    public GameObject owner; // W³aœciciel pocisku
     private bool isFadingOut = false; // Czy pocisk zaczyna wygasaæ
     private float fadeOutTimer = 0f; // Licznik czasu do wygasania
 

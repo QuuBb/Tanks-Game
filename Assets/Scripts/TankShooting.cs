@@ -10,7 +10,21 @@ public class TankShooting : MonoBehaviour
     public float bulletSpeed = 10f; // Prêdkoœæ pocisku
     public float shootCooldown = 2f; // Czas odstêpu miêdzy strza³ami
     private float lastShootTime; // Czas ostatniego strza³u
+    public Transform bulletSpawnPoint;
+    public AudioClip shootSound;
+    private AudioSource audioSource;
 
+
+
+    private void Start()
+    {
+        // Uzyskanie komponentu AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No AudioSource component found on the tank.");
+        }
+    }
     void Update()
     {
         // Strzelanie po wciœniêciu klawisza spacji i po up³ywie czasu od ostatniego strza³u
@@ -37,15 +51,28 @@ public class TankShooting : MonoBehaviour
      
     }
 
-    // Metoda do strzelania
     void Shoot()
     {
-        // Instancjonowanie nowego pocisku
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        // Instancjonowanie nowego pocisku w pozycji bulletSpawnPoint
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
         Debug.Log("Bullet instantiated");
+
+        // Ignorowanie kolizji miêdzy czo³giem a pociskiem
+        Collider2D tankCollider = GetComponent<Collider2D>();
+        Collider2D bulletCollider = bullet.GetComponent<Collider2D>();
+        if (tankCollider != null && bulletCollider != null)
+        {
+            Physics2D.IgnoreCollision(tankCollider, bulletCollider);
+        }
+        else
+        {
+            Debug.LogError("Tank or bullet does not have a Collider2D component");
+        }
 
         // Dodanie prêdkoœci pociskowi w kierunku, w którym jest obrócony czo³g
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        audioSource.PlayOneShot(shootSound);
+
         if (rb != null)
         {
             rb.velocity = transform.up * bulletSpeed;

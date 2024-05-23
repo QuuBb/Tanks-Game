@@ -6,10 +6,16 @@ public class Tank : MonoBehaviour
 {
     public float speed = 5f; // Prêdkoœæ poruszania siê czo³gu
     public float rotationSpeed = 100f; // Prêdkoœæ obracania siê czo³gu
-    public int health = 1; // Pocz¹tkowa iloœæ ¿ycia czo³gu
+    public int maxHealth = 5;
+    public int health = 5; // Pocz¹tkowa iloœæ ¿ycia czo³gu
     [SerializeField]
     private bool Player1;
     private Rigidbody2D rb; // Zmienna Rigidbody2D
+    [SerializeField]
+    private Vector3 SpawnPoint;
+    [SerializeField]
+    public HealthSlider HP;
+
 
     void Start()
     {
@@ -17,7 +23,7 @@ public class Tank : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // Ustawienie pozycji czo³gu na (0,0)
-        transform.position = new Vector3(0, 0, -2); // Dla mapy 2D u¿ywamy tylko dwóch pierwszych wspó³rzêdnych (x, y)
+        transform.position = SpawnPoint; // Dla mapy 2D u¿ywamy tylko dwóch pierwszych wspó³rzêdnych (x, y)
 
         // Ustawienie Gravity Scale na 0, aby wy³¹czyæ grawitacjê
         rb.gravityScale = 0;
@@ -84,13 +90,33 @@ public class Tank : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
-        // SprawdŸ, czy czo³g koliduje ze œcian¹
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject != gameObject)
         {
-            Debug.Log("Collision with Wall detected.");
-            // Jeœli tak, zatrzymaj ruch czo³gu
+            // Zatrzymaj oba czo³gi
+            rb.velocity = Vector2.zero;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            // Jeœli kolizja ze œcian¹, zatrzymaj ruch czo³gu
             rb.velocity = Vector2.zero;
         }
+        else if (collision.gameObject.CompareTag("Bullet"))
+        {
+            // Jeœli kolizja z pociskiem, zmniejsz zdrowie czo³gu
+            health--;
+            HP.UpdateSlider(health);
+
+            // Jeœli zdrowie wynosi 0 lub mniej, zniszcz czo³g
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+
+            // Zniszcz pocisk
+            Destroy(collision.gameObject);
+        }
     }
+
+
 }
