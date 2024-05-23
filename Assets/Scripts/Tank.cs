@@ -16,9 +16,15 @@ public class Tank : MonoBehaviour
     [SerializeField]
     public HealthSlider HP;
 
+    public AudioClip explosionSound; // Przypisz plik dŸwiêkowy w inspektorze
+    public GameObject explosionPrefab; // Przypisz prefabrykat eksplozji w inspektorze
+
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
+
         // Pobierz komponent Rigidbody2D
         rb = GetComponent<Rigidbody2D>();
 
@@ -31,7 +37,7 @@ public class Tank : MonoBehaviour
 
     void Update()
     {
-        if(Player1)
+        if (Player1)
         {
             // Poruszanie siê do przodu (strza³ki)
             if (Input.GetKey(KeyCode.UpArrow))
@@ -83,16 +89,16 @@ public class Tank : MonoBehaviour
                 transform.Rotate(-Vector3.forward * rotationSpeed * Time.deltaTime);
             }
         }
-       
-
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && collision.gameObject != gameObject)
         {
-            // Jesli kolizja z innym czolgiem
+            // Zatrzymaj oba czo³gi
+            rb.velocity *= 0.1f;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity *= 0.3f;
+
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -108,6 +114,9 @@ public class Tank : MonoBehaviour
             // Jeœli zdrowie wynosi 0 lub mniej, zniszcz czo³g
             if (health <= 0)
             {
+                Debug.Log("Tank destroyed, playing explosion sound and spawning explosion effect");
+                PlayExplosionSound();
+                SpawnExplosionEffect();
                 Destroy(gameObject);
             }
 
@@ -116,15 +125,29 @@ public class Tank : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    void PlayExplosionSound()
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject != gameObject)
+        if (explosionSound != null && audioSource != null)
         {
-            // Zatrzymaj oba czo³gi
-            rb.velocity *= 0.1f;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity *= 0.3f;
+            audioSource.PlayOneShot(explosionSound);
+            Debug.Log("Explosion sound played");
+        }
+        else
+        {
+            Debug.LogWarning("Explosion sound or audio source not set");
         }
     }
 
-
+    void SpawnExplosionEffect()
+    {
+        if (explosionPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+            Debug.Log("Explosion effect spawned");
+        }
+        else
+        {
+            Debug.LogWarning("Explosion prefab not set");
+        }
+    }
 }

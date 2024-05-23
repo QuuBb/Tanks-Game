@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8234559845422941081}
   - component: {fileID: 1292541813289581289}
   m_Layer: 0
-  m_Name: MapBlock 2
+  m_Name: MapBlock 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a74d4a6dac3d6f744a10572b0626f747, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d9c647ab26202e4484a965f05bd94ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
