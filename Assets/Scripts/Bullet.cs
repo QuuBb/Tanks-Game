@@ -5,11 +5,9 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 10f; // Prêdkoœæ pocisku
     public float fadeOutTime = 1f; // Czas, po którym pocisk zniknie
     public int damage = 10; // Obra¿enia pocisku
-
+    public GameObject collisionPrefab; // Prefabrykat do umieszczenia w miejscu kolizji
 
     public GameObject owner; // W³aœciciel pocisku
-    private bool isFadingOut = false; // Czy pocisk zaczyna wygasaæ
-    private float fadeOutTimer = 0f; // Licznik czasu do wygasania
 
     void Start()
     {
@@ -19,21 +17,7 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        // Jeœli pocisk zaczyna wygasaæ, zaktualizuj jego przezroczystoœæ
-        if (isFadingOut)
-        {
-            fadeOutTimer += Time.deltaTime;
-            float alpha = 1f - fadeOutTimer / fadeOutTime;
-            Color bulletColor = GetComponent<SpriteRenderer>().color;
-            bulletColor.a = alpha;
-            GetComponent<SpriteRenderer>().color = bulletColor;
 
-            // Jeœli czas wygasania min¹³, zniszcz pocisk
-            if (fadeOutTimer >= fadeOutTime)
-            {
-                Destroy(gameObject);
-            }
-        }
     }
 
     // Wywo³ywane, gdy obiekt trafia w inny obiekt z kolizj¹
@@ -46,8 +30,20 @@ public class Bullet : MonoBehaviour
             // Jeœli obiekt ma komponent Wall, zadaj mu obra¿enia
             wall.TakeDamage(damage);
             Debug.Log("DMG!");
-            // Zaczynamy proces wygasania pocisku
-            isFadingOut = true;
         }
+
+        // Pobierz pozycjê kolizji
+        Vector2 collisionPosition = collision.GetContact(0).point;
+        // Utwórz trójwymiarowy wektor z wartoœci¹ Z równ¹ -1
+        Vector3 collisionPosition3D = new Vector3(collisionPosition.x, collisionPosition.y, -1f);
+
+        // Tworzymy prefabrykat w miejscu kolizji
+        if (collisionPrefab != null)
+        {
+            Instantiate(collisionPrefab, collisionPosition3D, Quaternion.identity);
+        }
+
+        // Usuwamy pocisk
+        Destroy(gameObject);
     }
 }
