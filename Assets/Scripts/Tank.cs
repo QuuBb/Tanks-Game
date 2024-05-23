@@ -92,9 +92,7 @@ public class Tank : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && collision.gameObject != gameObject)
         {
-            // Zatrzymaj oba czo³gi
-            rb.velocity = Vector2.zero;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            // Jesli kolizja z innym czolgiem
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -115,6 +113,16 @@ public class Tank : MonoBehaviour
 
             // Zniszcz pocisk
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject != gameObject)
+        {
+            // Zatrzymaj oba czo³gi
+            rb.velocity *= 0.1f;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity *= 0.3f;
         }
     }
 
