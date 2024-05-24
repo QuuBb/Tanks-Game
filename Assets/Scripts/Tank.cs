@@ -142,7 +142,16 @@ public class Tank : MonoBehaviour
     {
         if (explosionPrefab != null)
         {
-            GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+            // Pobieramy bie¿¹c¹ pozycjê i rotacjê obiektu
+            Vector3 position = transform.position;
+            Quaternion rotation = transform.rotation;
+
+            // Modyfikujemy pozycjê na osi Z
+            position.z = -8;
+
+            // Tworzymy instancjê eksplozji w nowej pozycji i z t¹ sam¹ rotacj¹
+            GameObject explosion = Instantiate(explosionPrefab, position, rotation);
+
             Debug.Log("Explosion effect spawned");
         }
         else

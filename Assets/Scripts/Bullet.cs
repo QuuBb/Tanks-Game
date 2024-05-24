@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
         // Pobierz pozycjê kolizji
         Vector2 collisionPosition = collision.GetContact(0).point;
         // Utwórz trójwymiarowy wektor z wartoœci¹ Z równ¹ -1
-        Vector3 collisionPosition3D = new Vector3(collisionPosition.x, collisionPosition.y, -1f);
+        Vector3 collisionPosition3D = new Vector3(collisionPosition.x, collisionPosition.y, -3f);
 
         // Tworzymy prefabrykat w miejscu kolizji
         if (collisionPrefab != null)
